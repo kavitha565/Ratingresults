@@ -1,0 +1,26 @@
+<div class="example-form">
+    <mat-form-field class="example-full-width">
+      <input type="text" matInput (input)="getFilterOptions($event.target.value)" [matAutocomplete]="auto" [(ngModel)]="selectedOpt1">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let option of filteredOptions" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+</div>
+<div class="example-form">
+  <mat-form-field class="example-full-width">
+    <input type="text" matInput (input)="getFilterOptions($event.target.value)" [matAutocomplete]="auto" [(ngModel)]="selectedOpt2">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+  
+{{selectedOpt1}}
+{{selectedOpt2}}
+
+{{error1}}
+{{error2}}

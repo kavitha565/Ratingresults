@@ -1,0 +1,82 @@
+.table-container{
+  width: 100%;
+  //height: 400px;
+  overflow: auto;
+  white-space: nowrap;
+  margin-top: 1.5em;
+  //margin-bottom: 1.5em;
+}
+table {
+    width: 100%;
+  }
+
+  tr.mat-row{
+    height: 0px !important;
+  }
+
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+  
+  th.mat-header-cell{
+    padding-left: 10px !important;
+  }
+
+  td ,th {
+    border-right: 1px solid #e0e0e0;
+    padding: 0 !important;
+  }
+
+.btn-container{
+    display: flex;
+    .mat-raised-button{
+        margin-right: 1em;
+    }
+    button{
+        cursor: pointer;
+    }
+}
+// .mat-cell{
+//   padding: 15px;
+//   input{
+//     width: 150px;
+//     border: 1px solid #ccc;
+//     padding: 2px;
+//   }
+// }
+
+.mat-cell{
+  //border: 1px solid #ccc;
+  input{
+    width: 100%;
+    padding:0.7em;
+  }
+}
+
+//autocomplete styles
+.example-form {
+  min-width: 120px;
+  max-width: 120px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.headerCheckbox{
+  margin-left: 0.5em;
+  margin-right: 1em;
+}
+.dataCheckbox{
+  margin-left: 1em;
+}
+.errorDiv{
+  border: 1px solid red;
+}
+mat-select{
+  padding-left: 5px;
+  ::ng-deep .mat-select-arrow{
+    border: 0;
+  }
+}

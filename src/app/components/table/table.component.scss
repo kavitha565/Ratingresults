@@ -1,0 +1,44 @@
+
+.container{
+    padding: 2em;
+}
+.table-container{
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-top: 2em;
+}
+table {
+    width: 100%;
+  }
+
+  tr.mat-row{
+    height: 0px !important;
+  }
+
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+  
+  th.mat-header-cell{
+    padding-left: 10px !important;
+  }
+
+  td ,th {
+    border-right: 1px solid #e0e0e0;
+    padding: 0 !important;
+  }
+.mat-cell{
+  input{
+    width: 100%;
+    padding:0.7em;
+    border:0;
+  }
+}
+// .headerCheckbox{
+//     margin-left: 0.5em;
+//     margin-right: 1em;
+//   }
+//   .dataCheckbox{
+//     margin-left: 1em;
+//   }

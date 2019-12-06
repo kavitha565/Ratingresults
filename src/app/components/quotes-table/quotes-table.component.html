@@ -1,0 +1,165 @@
+<form #quotesForm="ngForm" autocomplete="off">  
+  <!--Material table-->
+  <div class="table-container mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" (paste)="onPaste($event)" matSort>
+            
+               <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox  class="headerCheckbox" (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox class="dataCheckbox" (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+    
+              <ng-container matColumnDef="insurer">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> insurer </th>
+                  <td mat-cell *matCellDef="let element;let i=index"> 
+                      <div >
+                          <input type="text" name="insurer{{i}}" matInput (click)="clearFilterData($event.target.value)"
+                           (input)="getFilterOptions($event.target.value)"  [matAutocomplete]="auto" 
+                           [(ngModel)]="element['insurer']"
+                           [ngClass]="{'errorDiv': checkAutocompleteError(element['insurer'],'insurer',i)}" 
+                  matTooltip="Please enter valid data" [matTooltipDisabled]="checkAutocompleteTooltip(element['insurer'])">
+                          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                            <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                              {{option}}
+                            </mat-option>
+                          </mat-autocomplete>
+                        </div>
+                  </td>
+              </ng-container>
+      
+            <ng-container matColumnDef="quoteRequested">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> quoteRequested </th>
+                <td mat-cell *matCellDef="let element;let i=index"> 
+                        <!-- <input name="quoteRequested{{i}}" type="text" matInput  [matAutocomplete]="auto" 
+                        [(ngModel)]="element['quoteRequested']">
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                          <mat-option value="Yes">Yes</mat-option>
+                          <mat-option value="No">No</mat-option>
+                        </mat-autocomplete> -->
+                        <mat-select name="quoteRequested{{i}}" [(ngModel)]="element['quoteRequested']">
+                          <mat-option value="Yes">Yes</mat-option>
+                          <mat-option value="No">No</mat-option>
+                        </mat-select>
+                </td>
+            </ng-container>
+      
+            <ng-container matColumnDef="quoteDeclined">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> quoteDeclined </th>
+                <td mat-cell *matCellDef="let element;let i=index"> 
+                        <!-- <input name="quoteDeclined{{i}}" type="text" matInput  [matAutocomplete]="auto" [(ngModel)]="element['quoteDeclined']">
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                          <mat-option value="Yes">Yes</mat-option>
+                          <mat-option value="No">No</mat-option>
+                        </mat-autocomplete> -->
+                        <mat-select name="quoteDeclined{{i}}" [(ngModel)]="element['quoteDeclined']">
+                            <mat-option value="Yes">Yes</mat-option>
+                            <mat-option value="No">No</mat-option>
+                        </mat-select>
+                </td>
+            </ng-container>
+       
+            <ng-container matColumnDef="reasonForDecline">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> reasonForDecline </th>
+              <td mat-cell *matCellDef="let element;let i = index">
+                  <input name="reasonForDecline{{i}}"  
+                  matInput placeholder="" value="" [(ngModel)]="element['reasonForDecline']" minlength="5"
+                  [ngClass]="{'errorDiv':checkError(quotesForm,'reasonForDecline',i)}" 
+                  matTooltip="Must be atleast 5 characters" [matTooltipDisabled]="disableToolTip(quotesForm,'reasonForDecline',i)">
+              </td>
+            </ng-container> 
+            
+              <ng-container matColumnDef="spCosted">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> spCosted </th>
+                <td mat-cell *matCellDef="let element;let i=index"> 
+                  <!-- <input name="spCosted{{i}}" type="text" matInput  [matAutocomplete]="auto" [(ngModel)]="element['spCosted']">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-autocomplete> -->
+                  <mat-select name="spCosted{{i}}" [(ngModel)]="element['spCosted']">
+                      <mat-option value="Yes">Yes</mat-option>
+                      <mat-option value="No">No</mat-option>
+                  </mat-select>
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="unitRate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> unitRate </th>
+                <td mat-cell *matCellDef="let element;let i=index"> 
+                  <input name="unitRate{{i}}" matInput placeholder="" value="" 
+                  [(ngModel)]="element['unitRate']" pattern="[0-9]*\.?[0-9][0-9]*"
+                  [ngClass]="{'errorDiv':checkError(quotesForm,'unitRate',i)}" 
+                  matTooltip="Only digits allowed" [matTooltipDisabled]="disableToolTip(quotesForm,'unitRate',i)">
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="premium">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> premium </th>
+                <td mat-cell *matCellDef="let element;let i=index"> 
+                  <input name="premium{{i}}" matInput placeholder="" value="" 
+                  [(ngModel)]="element['premium']" pattern="[0-9]*\.?[0-9][0-9]*"
+                  [ngClass]="{'errorDiv':checkError(quotesForm,'premium',i)}" 
+                  matTooltip="Only digits allowed" [matTooltipDisabled]="disableToolTip(quotesForm,'premium',i)">
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="percentage">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> percentage </th>
+                <td mat-cell *matCellDef="let element;let i=index"> 
+                  <input name="percentage{{i}}" matInput placeholder="" value="" 
+                  [(ngModel)]="element['percentage']" pattern="[0-9]*\.?[0-9][0-9]*"
+                  [ngClass]="{'errorDiv':checkError(quotesForm,'percentage',i)}" 
+                  matTooltip="Only digits allowed" [matTooltipDisabled]="disableToolTip(quotesForm,'percentage',i)">
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="freeCoverLevel">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> freeCoverLevel </th>
+                <td mat-cell *matCellDef="let element;let i=index"> 
+                  <input name="freeCoverLevel{{i}}" matInput placeholder="" value="" 
+                  [(ngModel)]="element['freeCoverLevel']" pattern="[0-9]*\.?[0-9][0-9]*"
+                  [ngClass]="{'errorDiv':checkError(quotesForm,'freeCoverLevel',i)}" 
+                  matTooltip="Only digits allowed" [matTooltipDisabled]="disableToolTip(quotesForm,'freeCoverLevel',i)">
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="singleEventMaximum">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> singleEventMaximum </th>
+                <td mat-cell *matCellDef="let element;let i=index"> 
+                  <input name="singleEventMaximum{{i}}" matInput placeholder="" value="" 
+                  [(ngModel)]="element['singleEventMaximum']" pattern="[0-9]*\.?[0-9][0-9]*"
+                  [ngClass]="{'errorDiv':checkError(quotesForm,'singleEventMaximum',i)}" 
+                  matTooltip="Only digits allowed" [matTooltipDisabled]="disableToolTip(quotesForm,'singleEventMaximum',i)">
+                </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="otherNotes">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> otherNotes </th>
+                <td mat-cell *matCellDef="let element;let i=index"> 
+                  <input name="otherNotes{{i}}" matInput placeholder="" value="" [(ngModel)]="element['otherNotes']">
+                </td>
+              </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    </div>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10,20]"></mat-paginator>
+    <div class="btn-container">
+        <button mat-raised-button color="primary" (click)="submitData(quotesForm)">Submit</button>
+        <button mat-raised-button color="primary" (click)="addRow()">Add Row</button>
+        <button mat-raised-button color="primary" (click)="removeSelectedRows()" [disabled]="selection.selected && selection.selected.length==0">
+            Remove Selected Rows
+        </button>
+    </div>
+  </form>

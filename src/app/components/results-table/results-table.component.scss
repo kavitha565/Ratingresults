@@ -1,0 +1,17 @@
+table {
+    width: 100%;
+    margin-top: 1em;
+  }
+  
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+.select-container{
+  text-align: right;
+  mat-label{
+    margin-right: 1em;
+  }
+}
+.no_quotes{
+  margin-top: 2em;
+}

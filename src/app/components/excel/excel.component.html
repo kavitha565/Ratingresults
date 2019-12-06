@@ -1,0 +1,62 @@
+
+<!-- <p>Paste excel data here:</p>
+<textarea #myText (paste)="onPaste($event)" [(ngModel)]="pasteData" style="width:250px;height:150px;"></textarea> -->
+<h3>Employe Details</h3>
+<table (paste)="onPaste($event)" >
+    <tr>
+      <th>Emp Id</th>
+      <th>Name Prefix</th>
+      <th>First name</th>
+      <th>Middle name</th>
+      <th>Last name</th>
+      <th>Gender</th>
+      <th>Email</th>
+      <th>DOB</th>
+      <th>DOJ</th>
+    </tr>
+    <ng-container *ngIf="tableData && tableData.length>0">
+      <tr *ngFor="let item of tableData;let i = index">
+        <!-- <td>
+            <span (click)="showEditable($event,empId_i,empId_0)">{{item.empId}}</span>
+            <input  type="text" name="empId_{{i}}" [(ngModel)]="tableData[i].empId" [hidden]='true'/>  
+        </td> -->
+        <td class="parent">
+            <span class="child1">{{item.empId}}</span>
+            <input class="child2" type="text" name="empId_{{i}}" [(ngModel)]="tableData[i].empId"/>  
+        </td>
+        <td class="parent">
+            <span class="child1">{{item.namePrefix}}</span>
+            <input class="child2" type="text" name="namePrefix_{{i}}" [(ngModel)]="tableData[i].namePrefix"/>  
+        </td>
+        <td class="parent">
+            <span class="child1">{{item.firstName}}</span>
+            <input class="child2" type="text" name="firstName_{{i}}" [(ngModel)]="tableData[i].firstName"/>  
+        </td>
+        <td class="parent">
+            <span class="child1">{{item.middleName}}</span>
+            <input class="child2" type="text" name="middleName_{{i}}" [(ngModel)]="tableData[i].middleName"/>  
+        </td>
+        <td class="parent">
+            <span class="child1">{{item.lastName}}</span>
+            <input class="child2" type="text" name="lastName_{{i}}" [(ngModel)]="tableData[i].lastName"/>  
+        </td>
+        <td class="parent">
+            <span class="child1">{{item.gender}}</span>
+            <input class="child2" type="text" name="gender_{{i}}" [(ngModel)]="tableData[i].gender"/>  
+        </td>
+        <td class="parent">
+            <span class="child1">{{item.email}}</span>
+            <input class="child2" type="text" name="email_{{i}}" [(ngModel)]="tableData[i].email"/>  
+        </td>
+        <td class="parent">
+            <span class="child1">{{item.dob}}</span>
+            <input class="child2" type="text" name="dob_{{i}}" [(ngModel)]="tableData[i].dob"/>  
+        </td>
+        <td class="parent">
+            <span class="child1">{{item.doj}}</span>
+            <input class="child2" type="text" name="doj_{{i}}" [(ngModel)]="tableData[i].doj"/>  
+        </td>
+      </tr>
+    </ng-container>
+</table>
+<button *ngIf="tableData && tableData.length>0" (click)="onSubmit()">Submit</button>

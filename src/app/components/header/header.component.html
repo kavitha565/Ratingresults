@@ -1,0 +1,7 @@
+<mat-toolbar color="primary">
+    <span>Psyon</span>
+    <span class="example-spacer"></span>
+    <div class="logout-container">
+        <ng-container *ngIf="profileData && profileData.name">Hi {{profileData.name}}</ng-container> | <a (click)="logout()">Logout</a>
+    </div>
+</mat-toolbar>

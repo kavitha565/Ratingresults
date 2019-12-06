@@ -1,0 +1,12 @@
+.main-container{
+  padding:2em;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
+
+.radio-btn-label{
+    margin-right: 1em;
+    //margin-bottom: 1em;
+}

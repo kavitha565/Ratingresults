@@ -1,0 +1,11 @@
+{
+    "production": false,
+    "apiUrl": "https://bi-dev-acc-knowhowpoc-web-api-ne01.azurewebsites.net/api/",
+    "okta": {
+        "baseUrl": "https://hyperiongrp-dev.oktapreview.com",
+        "issuer": "https://hyperiongrp-dev.oktapreview.com/oauth2/ausoqv7z0gzx1w0Qd0h7",
+        "redirectUri": "http://localhost:4200/implicit/callback",
+        "clientId": "0oaooneiqvYrFbOhV0h7",
+        "scope": "openid profile email"
+    }
+}

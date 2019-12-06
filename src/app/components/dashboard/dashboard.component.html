@@ -1,0 +1,10 @@
+<app-header></app-header>
+<div class="main-container">
+        <span class="radio-btn-label">Select an option</span>
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="showResults">
+            <mat-radio-button [value]="true" >First Round Results</mat-radio-button>
+            <mat-radio-button [value]="false">First Round Quotes</mat-radio-button>
+        </mat-radio-group>
+        <app-quotes-table *ngIf="!showResults"></app-quotes-table>
+        <app-results-table *ngIf="showResults"></app-results-table>
+</div>
