@@ -1,7 +1,33 @@
-<mat-toolbar color="primary">
+<!-- <mat-toolbar color="primary">
     <span>Psyon</span>
     <span class="example-spacer"></span>
     <div class="logout-container">
         <ng-container *ngIf="profileData && profileData.name">Hi {{profileData.name}}</ng-container> | <a (click)="logout()">Logout</a>
     </div>
-</mat-toolbar>
+</mat-toolbar> -->
+
+<header>
+    <div class="logo-container">
+        <a>
+            <img src="../../../assets/images/psyon-logo.svg" alt="Psyon" width="100px" height="40px">
+        </a>
+    </div>
+    <!-- <div class="heading">
+        <span>Dev Server</span>
+    </div> -->
+    <div class="logout-container">
+        <!-- <ng-container *ngIf="profileData && profileData.name">You logged in as {{profileData.name}}</ng-container>  -->
+        <span>You logged in as Kavitha Pasupuleti</span>
+        <button mat-raised-button (click)="logout()">Logout</button>
+    </div>
+</header>
+<nav>
+    <ul>
+        <li>
+            <a routerLink="/" routerLinkActive="is-active">Home</a>
+        </li>
+        <li>
+            <a href="http://admin-dev.psyondev.int/" target="_blank" routerLinkActive="is-active">Gladis</a>
+        </li>
+    </ul>
+</nav>

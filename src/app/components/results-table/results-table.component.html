@@ -1,4 +1,4 @@
-<ng-container *ngIf="quotesData && quotesData.length>0;else no_quotes">
+<div [hidden]="quotesData.length==0">
     <!-- Restrict results -->
   <div class="select-container">
     <mat-label>Number of Result to display</mat-label>
@@ -10,7 +10,7 @@
     </mat-form-field>
   </div>
   <!--Material table-->
-  <table mat-table [dataSource]="dataSource"  matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource"  matSort class="mat-elevation-z8" [matSortDisabled]="false">
 
           <ng-container matColumnDef="ranking">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ranking </th>
@@ -65,7 +65,10 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <!-- <mat-paginator [pageSizeOptions]="[5, 10]"></mat-paginator> -->
-</ng-container>
-<ng-template #no_quotes>
+</div>
+<!-- <ng-template #no_quotes>
   <mat-card class="no_quotes">No Results to Display</mat-card>
-</ng-template>
+</ng-template> -->
+<div [hidden]="!quotesData.length == 0">
+  <mat-card class="no_quotes">No Results to Display</mat-card>
+</div>

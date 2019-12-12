@@ -1,11 +1,13 @@
-{
+
+{ 
     "production": false,
     "apiUrl": "https://bi-dev-acc-knowhowpoc-web-api-ne01.azurewebsites.net/api/",
+    "useMockData": false,
     "okta": {
         "baseUrl": "https://hyperiongrp-dev.oktapreview.com",
-        "issuer": "https://hyperiongrp-dev.oktapreview.com/oauth2/ausoqv7z0gzx1w0Qd0h7",
+        "issuer": "https://hyperiongrp-dev.oktapreview.com/oauth2/ausnndf04lQ4tWS800h7",
         "redirectUri": "http://localhost:4200/implicit/callback",
-        "clientId": "0oaooneiqvYrFbOhV0h7",
+        "clientId": "0oann2tdppcaMS3NE0h7",
         "scope": "openid profile email"
     }
 }

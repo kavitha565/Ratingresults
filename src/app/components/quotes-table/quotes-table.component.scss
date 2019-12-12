@@ -1,57 +1,73 @@
 .table-container{
   width: 100%;
-  //height: 400px;
+  height: 400px;
   overflow: auto;
   white-space: nowrap;
   margin-top: 1.5em;
-  //margin-bottom: 1.5em;
+  margin-bottom: 1.5em;
 }
 table {
+  width: 100%;
+}
+
+// .mat-header-row {
+//   position: sticky;
+//   position: -webkit-sticky;
+//   top: 0;
+//   background-color: inherit;
+// }
+
+.mat-header-row{
+  background: #2c305f;
+}
+
+th{
+  color: #ffffff;
+}
+
+tr.mat-row{
+  height: 0px !important;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+th.mat-header-cell:not(:first-child){
+  padding: 0 10px !important;
+}
+
+td ,th {
+  border-right: 0.5px solid #e0e0e0;
+}
+
+td:first-child,th:first-child{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.mat-cell{
+  input{
     width: 100%;
+    padding:0.7em;
+    border:0;
   }
-
-  tr.mat-row{
-    height: 0px !important;
-  }
-
-  th.mat-sort-header-sorted {
-    color: black;
-  }
-  
-  th.mat-header-cell{
-    padding-left: 10px !important;
-  }
-
-  td ,th {
-    border-right: 1px solid #e0e0e0;
-    padding: 0 !important;
-  }
+}
 
 .btn-container{
     display: flex;
     .mat-raised-button{
         margin-right: 1em;
-    }
-    button{
         cursor: pointer;
+        background: #01a89e;
+        color: white;
+    }
+    .mat-raised-button[disabled]{
+      background: rgba(0,0,0,.12);
     }
 }
-// .mat-cell{
-//   padding: 15px;
-//   input{
-//     width: 150px;
-//     border: 1px solid #ccc;
-//     padding: 2px;
-//   }
-// }
 
-.mat-cell{
-  //border: 1px solid #ccc;
-  input{
-    width: 100%;
-    padding:0.7em;
-  }
-}
+
 
 //autocomplete styles
 .example-form {
@@ -64,15 +80,8 @@ table {
   width: 100%;
 }
 
-.headerCheckbox{
-  margin-left: 0.5em;
-  margin-right: 1em;
-}
-.dataCheckbox{
-  margin-left: 1em;
-}
 .errorDiv{
-  border: 1px solid red;
+  border: 1px solid red !important;
 }
 mat-select{
   padding-left: 5px;

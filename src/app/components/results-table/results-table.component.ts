@@ -36,7 +36,7 @@ export class ResultsTableComponent implements OnInit {
     this.quotesData = JSON.parse(localStorage.insurerData)
     //sort Data based on Unit rate
    // this.quotesData = this.quotesData.sort((a:any,b:any) => (a.unitRate < b.unitRate) ? 1 : ((b.unitRate < a.unitRate) ? -1 : 0)); 
-    for(var i=0;i<this.quotesData.length;i++){
+    for(var i=0;i<this.quotesData.length-1;i++){
       for(var j=i+1;j<this.quotesData.length;j++){
         if(this.quotesData[i]["unitRate"]<this.quotesData[j]["unitRate"]){
           var temp= this.quotesData[i];

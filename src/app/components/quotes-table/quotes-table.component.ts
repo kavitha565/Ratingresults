@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
@@ -22,11 +21,11 @@ export class QuotesTableComponent implements OnInit {
   constructor() { }
   
   displayedColumns: string[] = ["select", "insurer",	"quoteRequested",	"quoteDeclined", "reasonForDecline",	"spCosted",	"unitRate","premium","percentage","freeCoverLevel","singleEventMaximum","otherNotes"];
+  tableColumns: string[] = ["insurer",	"quoteRequested",	"quoteDeclined", "reasonForDecline",	"spCosted",	"unitRate","premium","percentage","freeCoverLevel","singleEventMaximum","otherNotes"];
   //displayedColumns: string[] = ["insurer",	"quoteRequested",	"quoteDeclined", "reasonForDecline",	"spCosted",	"unitRate","premium","percentageChangeInExpiringUnitRate","freeCoverLevel","singleEventMaxium","otherNotes","timeofExport","expiringUnitRate","client","schemeName","product","reviewMembership","existingBasis","basisNumber","basisDescription","round"];
   
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   
   checkAutoCompleteValidation(){
     if(this.autocompleteErrorObj && Object.keys(this.autocompleteErrorObj).length>0){
@@ -38,43 +37,28 @@ export class QuotesTableComponent implements OnInit {
   }
 
   checkFormLevelValidation(formName,value){
-    switch(formName) {
-        case 'insurer':
-          if(!this.insurersList.includes(value))
-          return true
-          break;
-        case 'unitRate':
-        case 'premium': 
-        case 'percentage':
-        case 'freeCoverLevel':
-        case 'singleEventMaximum' : 
-          let pattern = new RegExp("^[0-9]*\.?[0-9][0-9]*$")
-          if(!pattern.test(value))
-          return true
-        default:
-          // code block
-      }
+        if(!this.insurersList.includes(value))
+        return true
   }
 
   checkValidation(){
-    console.log(this.quotesData)
     for(let i=0;i<this.quotesData.length;i++){
-      if(this.quotesData[i]["insurer"]!='' && this.checkFormLevelValidation('insurer',this.quotesData[i]["insurer"]))
-      return true
-      if(this.quotesData[i]["unitRate"]!='' && this.checkFormLevelValidation('unitRate',this.quotesData[i]["unitRate"]))
-      return true
-      if(this.quotesData[i]["premium"]!='' && this.checkFormLevelValidation('premium',this.quotesData[i]["premium"]))
-      return true
-      if(this.quotesData[i]["percentage"]!='' && this.checkFormLevelValidation('percentage',this.quotesData[i]["percentage"])){
-        
+      if(this.quotesData[i]["insurer"]!='' && this.checkFormLevelValidation('insurer',this.quotesData[i]["insurer"])){
+        document.getElementById("insurer"+i).scrollIntoView()
         return true
       }
-      if(this.quotesData[i]["freeCoverLevel"]!='' && this.checkFormLevelValidation('freeCoverLevel',this.quotesData[i]["freeCoverLevel"]))
-      return true
-      if(this.quotesData[i]["singleEventMaximum"]!='' && this.checkFormLevelValidation('singleEventMaximum',this.quotesData[i]["singleEventMaximum"]))
-      return true
     }
     return false
+  }
+
+  isElementInViewport(el) {
+    var rect = el.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document. documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document. documentElement.clientWidth)
+    );
   }
 
   submitData(quotesForm){
@@ -85,32 +69,31 @@ export class QuotesTableComponent implements OnInit {
     //   return;
     // }
     
-    //check validation
-    //if(quotesForm.invalid || this.checkAutoCompleteValidation())
-    //alert("Please clear errors!!")
+    //check validation manually
+    // if(this.checkValidation())
+    // alert("Please clear errors!!")
 
-    if(this.checkValidation())
-    alert("Please clear errors!!")
+    //check validation
+    if(quotesForm.invalid || this.checkValidation()){
+      if(document.getElementsByClassName("ng-invalid") && document.getElementsByClassName("ng-invalid").length>1){
+        //if(!this.isElementInViewport(document.getElementsByClassName("ng-invalid")[1]))
+        document.getElementsByClassName("ng-invalid")[1].scrollIntoView({
+          block : 'center'
+        })
+      }
+      alert("Please clear errors!!")
+    }
     else{
       let count = 0
       let data = []
-      //page level submit
-      //let skip = this.paginator.pageSize * this.paginator.pageIndex;
-      //let pagedData = this.quotesData.filter((u, i) => i >= skip).filter((u, i) => i <this.paginator.pageSize);
 
-      //check whether row is empty or not
-      let tableColumns
-      if(this.displayedColumns.length>0){
-        tableColumns = [...this.displayedColumns]
-        tableColumns.shift()
-      }
       for(let i=0;i<this.quotesData.length;i++){
-      for(let j=0;j<tableColumns.length;j++){
-        if(this.quotesData[i][tableColumns[j]]!='')
+      for(let j=0;j<this.tableColumns.length;j++){
+        if(this.quotesData[i][this.tableColumns[j]]!='')
         break;
         count++;
       }
-      if(count < tableColumns.length)
+      if(count < this.tableColumns.length)
       data.push(this.quotesData[i])
       count = 0
       }
@@ -126,9 +109,7 @@ export class QuotesTableComponent implements OnInit {
 
   getQuotesObj(){
     let quotesObj = {}
-    let columns = [...this.displayedColumns]
-    columns.shift()
-    columns.map(item=>{quotesObj[item] = ''})
+    this.tableColumns.map(item=>{quotesObj[item] = ''})
     return quotesObj
   }
 
@@ -137,12 +118,7 @@ export class QuotesTableComponent implements OnInit {
     this.quotesData.push(quotesObj)
     this.dataSource = new MatTableDataSource(this.quotesData);
     this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    let lastPageItemsLength = this.paginator.getNumberOfPages() * this.paginator.pageSize
-    if(this.quotesData.length-1 < lastPageItemsLength)
-    this.paginator.pageIndex =  this.paginator.getNumberOfPages();
-    else
-    this.paginator.pageIndex =  this.paginator.getNumberOfPages() + 1;
+    
   }
 
   removeExtraTabs(string:string){
@@ -157,7 +133,7 @@ export class QuotesTableComponent implements OnInit {
     for(let i=0;i<rows.length;i++){
       //rows[i] = this.removeExtraTabs(rows[i])
       let cells = rows[i].split("\t")
-        if(cells.length!=this.displayedColumns.length-1)
+        if(cells.length!=this.tableColumns.length)
         {
           alert("Please copy valid data!!")
           return;
@@ -169,15 +145,33 @@ export class QuotesTableComponent implements OnInit {
         }
         excelDataArr.push(excelDataObj)
     }
-    if(localStorage.insurerData)
-    this.quotesData = [...this.quotesData,...excelDataArr]
-    else
+
+    //check whether row is empty or not
+      let count = 0
+      let data  = []
+      for(let i=0;i<this.quotesData.length;i++){
+        for(let j=0;j<this.tableColumns.length;j++){
+          if(this.quotesData[i][this.tableColumns[j]]!='')
+          break;
+          count++;
+        }
+        if(count < this.tableColumns.length)
+        data.push(this.quotesData[i])
+        count = 0
+        }
+    if(data.length == 0)
     this.quotesData = excelDataArr
+    else
+    this.quotesData = [...data,...excelDataArr]
+
+    // if(localStorage.insurerData)
+    // this.quotesData = [...this.quotesData,...excelDataArr]
+    // else
+    // this.quotesData = excelDataArr
     
     console.log(this.quotesData)
     this.dataSource = new MatTableDataSource(this.quotesData);
     this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
     this.submitted = true
   }
   onPaste(event:ClipboardEvent){
@@ -193,16 +187,28 @@ export class QuotesTableComponent implements OnInit {
 
   }
 
-  checkAutocompleteError(searchValue:string,formControl,index){
-    let formControlName = formControl+index
+  focusOutFunction(searchValue:string,event){
+    let formControlId = event.target.id
+    //let filterValue = searchValue.toLowerCase()
+    if(!this.insurersList.includes(searchValue)){
+      document.getElementById(formControlId).classList.add("errorDiv")
+    }else{
+      document.getElementById(formControlId).classList.remove("errorDiv")
+    }
+  }
+
+  // onSelectAutocomplete(event){
+  //   event.target.classList.remove("errorDiv")
+  //   //alert("selected!")
+  // }
+
+  checkAutocompleteError(searchValue:string){
     let filterValue = searchValue.toLowerCase()
     this.filteredOptions = this.insurersList.filter(option => option.toLowerCase().indexOf(filterValue) === 0)
-    if(this.filteredOptions.length == 0){
-      this.autocompleteErrorObj[formControlName]= true
-      return true
-    }else{
-      this.autocompleteErrorObj[formControlName]= false
-    }
+    if(this.filteredOptions.length == 0)
+    return true
+    else
+    return false
   }
 
   checkAutocompleteTooltip(searchValue:string){
@@ -238,7 +244,6 @@ export class QuotesTableComponent implements OnInit {
         this.quotesData.splice(index,1)
         this.dataSource = new MatTableDataSource(this.quotesData);
         this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
       });
       this.selection = new SelectionModel(true, []);
     }
@@ -279,8 +284,6 @@ export class QuotesTableComponent implements OnInit {
            return false;
 
         return true;
-     
-      //return (/^\d*\.?\d*$/).test(value);
     }
 
    ngOnInit() {
@@ -291,7 +294,7 @@ export class QuotesTableComponent implements OnInit {
     this.quotesData = JSON.parse(localStorage.insurerData)
     //show table empty rows if no quotes data present
     if(this.quotesData && this.quotesData.length==0){
-      for(let i=0;i<5;i++){
+      for(let i=0;i<10;i++){
         let quotesObj = this.getQuotesObj()
         this.quotesData.push(quotesObj)
       }
@@ -302,7 +305,6 @@ export class QuotesTableComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.quotesData);
     this.selection = new SelectionModel(true, []);
     this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
   }
   
   

@@ -15,3 +15,13 @@ table {
 .no_quotes{
   margin-top: 2em;
 }
+.mat-header-row{
+  background: #2c305f;
+}
+
+th{
+  color: #ffffff;
+}
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

@@ -16,11 +16,11 @@ table {
     height: 0px !important;
   }
 
-  th.mat-sort-header-sorted {
-    color: black;
-  }
+  // th.mat-sort-header-sorted {
+  //   color: black;
+  // }
   
-  th.mat-header-cell{
+  th.mat-header-cell:not(:first-child){
     padding-left: 10px !important;
   }
 
@@ -35,10 +35,6 @@ table {
     border:0;
   }
 }
-// .headerCheckbox{
-//     margin-left: 0.5em;
-//     margin-right: 1em;
-//   }
-//   .dataCheckbox{
-//     margin-left: 1em;
-//   }
+mat-checkbox{
+  padding: 0 1em;
+}

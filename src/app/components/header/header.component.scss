@@ -1,9 +1,53 @@
-.example-spacer {
-    flex: 1 1 auto;
-  }
-.logout-container{
-    font-size: 15px;
-    a{
-        cursor: pointer;
+// .example-spacer {
+//     flex: 1 1 auto;
+//   }
+// .logout-container{
+//     font-size: 15px;
+//     a{
+//         cursor: pointer;
+//     }
+// }
+// mat-toolbar{
+//     height: 50px;
+// }
+
+header{
+    display: flex;
+    align-items: center;
+    padding: 0.3em 0.7em;
+    .logo-container{
+        flex: 1 0 auto;
+    }
+    .heading{
+        flex: 1 0 auto;
+    }
+    .logout-container{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        button{
+            margin-top: 5px;
+            background-color: #01a89e;
+            color: #fff;
+            width: 70px;
+            font-size: 12px;
+        }
+    }
+}
+nav{
+    display: flex;
+    background: #2c305f;
+    color: #fff;
+    ul{
+        display: flex;
+        list-style: none;
+        li{
+            margin-right: 1.5em;
+            cursor: pointer;
+            a{
+                color: #fff;
+                text-decoration: none;
+            }
+        }
     }
 }
